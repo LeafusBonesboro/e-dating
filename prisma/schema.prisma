@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL") 
+  url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -8,15 +8,15 @@ generator client {
 }
 
 model User {
-  id       String   @id @default(cuid())
-  email    String   @unique
+  id       String    @id @default(cuid())
+  email    String    @unique
   name     String?
   messages Message[]
 }
 
 model Character {
-  id        String   @id @default(cuid())
-  name      String   @unique
+  id        String    @id @default(cuid())
+  name      String    @unique
   bio       String?
   avatarUrl String?
   loraToken String?
@@ -28,9 +28,10 @@ model Message {
   sender      String   // "user" or "character"
   content     String
   imageUrl    String?
+  createdAt   DateTime @default(now())
+
   userId      String?
   characterId String?
-  createdAt   DateTime @default(now())
 
   user      User?      @relation(fields: [userId], references: [id])
   character Character? @relation(fields: [characterId], references: [id])

@@ -10,16 +10,16 @@ async function main() {
       loraToken: "sophia-style",
     },
     {
-      name: "Lila",
-      bio: "Tech enthusiast and gamer from San Francisco",
-      avatarUrl: "https://placehold.co/200x200?text=Lila",
-      loraToken: "lila-style",
-    },
-    {
       name: "Maya",
       bio: "Travel blogger who loves exploring new cultures",
       avatarUrl: "/images/Maya.jpg",
       loraToken: "maya-style",
+    },
+    {
+      name: "Lila",
+      bio: "Tech enthusiast and gamer from San Francisco",
+      avatarUrl: "/images/Lila.jpg",
+      loraToken: "lila-style",
     },
   ];
 
@@ -30,7 +30,7 @@ async function main() {
         bio: char.bio,
         avatarUrl: char.avatarUrl,
         loraToken: char.loraToken,
-      }, // 👈 right here, so updates happen
+      },
       create: char,
     });
   }

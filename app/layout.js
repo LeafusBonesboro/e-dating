@@ -1,5 +1,6 @@
 import "./globals.css";
 import Topbar from "@/components/Topbar";
+import Providers from "./providers";
 
 export const metadata = {
   title: "E-Dating",
@@ -9,10 +10,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head />
       <body className="bg-gray-50 text-gray-900">
-        <Topbar />
-        <main className="pt-20">{children}</main>
+        <Providers>
+          <Topbar />
+          <main className="pt-20">{children}</main>
+        </Providers>
       </body>
     </html>
   );
