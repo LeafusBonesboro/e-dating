@@ -1,5 +1,4 @@
-// prisma/seed.js
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function main() {
@@ -7,38 +6,42 @@ async function main() {
     {
       name: "Sophia",
       bio: "25-year-old artist from Brooklyn",
-      avatarUrl: "https://placehold.co/200x200?text=Sophia",
-      loraToken: "sophia-style"
+      avatarUrl: "/images/Sophia.jpg",
+      loraToken: "sophia-style",
+    },
+    {
+      name: "Lila",
+      bio: "Tech enthusiast and gamer from San Francisco",
+      avatarUrl: "https://placehold.co/200x200?text=Lila",
+      loraToken: "lila-style",
     },
     {
       name: "Maya",
-      bio: "Witty writer who enjoys coffee shop dates",
-      avatarUrl: "https://placehold.co/200x200?text=Maya",
-      loraToken: "maya-style"
+      bio: "Travel blogger who loves exploring new cultures",
+      avatarUrl: "/images/Maya.jpg",
+      loraToken: "maya-style",
     },
-    {
-      name: "Aria",
-      bio: "Gamer girl who streams on weekends",
-      avatarUrl: "https://placehold.co/200x200?text=Aria",
-      loraToken: "aria-style"
-    }
   ];
 
   for (const char of characters) {
     await prisma.character.upsert({
       where: { name: char.name },
-      update: {},
+      update: {
+        bio: char.bio,
+        avatarUrl: char.avatarUrl,
+        loraToken: char.loraToken,
+      }, // 👈 right here, so updates happen
       create: char,
     });
   }
-
-  console.log("✅ Seeded characters!");
 }
 
 main()
-  .then(() => prisma.$disconnect())
-  .catch(async (e) => {
+  .then(() => console.log("✅ Seeding complete!"))
+  .catch((e) => {
     console.error(e);
-    await prisma.$disconnect();
     process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
   });
