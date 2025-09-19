@@ -41,7 +41,7 @@ export default function Topbar() {
 
         {/* Navigation */}
         <nav className="flex gap-6">
-          {["Home", "About", "Features", "Contact"].map((item) => (
+          {["Home", "Features", "Characters"].map((item) => (
             <Link
               key={item}
               href={`/${item.toLowerCase() === "home" ? "" : item.toLowerCase()}`}
