@@ -68,11 +68,12 @@ export default function Topbar() {
             </div>
           ) : (
             <button
-              onClick={() => signIn("google")}
-              className="bg-pink-500 hover:bg-pink-600 px-3 py-1 rounded-lg text-sm"
-            >
-              Sign In
-            </button>
+  onClick={() => signIn("google", { callbackUrl: "/characters" })}
+  className="bg-pink-500 hover:bg-pink-600 px-3 py-1 rounded-lg text-sm"
+>
+  Sign In
+</button>
+
           )}
         </div>
       </div>
