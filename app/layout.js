@@ -3,10 +3,16 @@ import "./globals.css";
 import Topbar from "@/components/Topbar";
 import Sidebar from "@/components/Sidebar";
 import { SessionProvider } from "next-auth/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function RootLayout({ children }) {
   const [expanded, setExpanded] = useState(true);
+  const [mounted, setMounted] = useState(false);
+
+  // Ensure client & server match before applying dynamic classes
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <html lang="en">
@@ -14,7 +20,11 @@ export default function RootLayout({ children }) {
         <SessionProvider>
           <div className="flex">
             <Sidebar expanded={expanded} />
-            <div className={`flex-1 transition-all duration-300 ${expanded ? "ml-48" : "ml-16"}`}>
+            <div
+              className={`flex-1 transition-all duration-300 ${
+                mounted ? (expanded ? "ml-48" : "ml-16") : "ml-48"
+              }`}
+            >
               <Topbar toggleSidebar={() => setExpanded(!expanded)} />
               <main className="pt-20 px-6">{children}</main>
             </div>

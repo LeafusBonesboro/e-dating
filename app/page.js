@@ -1,19 +1,19 @@
+// app/page.js
+import ProfileGrid from "@/components/ProfileGrid";
 
-import LandingPage from "@/components/LandingPage";
+// temporary mock data (later replace with DB results)
+const mockProfiles = Array.from({ length: 20 }).map((_, i) => ({
+  name: `Profile ${i + 1}`,
+  tagline: "Sample tagline here",
+  image: `https://via.placeholder.com/300x200?text=Profile+${i + 1}`,
+}));
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen">
-      {/* Sidebar will live in Topbar (controlled via state) */}
-      
-
-      {/* Main Content */}
-      <main
-        id="main-content"
-        className="flex-1 bg-gray-50 p-6 transition-all duration-300 ease-in-out"
-      >
-        <LandingPage />
-      </main>
+    <div className="p-6 space-y-12">
+      <ProfileGrid title="My Favorites" profiles={mockProfiles} />
+      <ProfileGrid title="Recommended" profiles={mockProfiles} />
+      <ProfileGrid title="New Members" profiles={mockProfiles} />
     </div>
   );
 }

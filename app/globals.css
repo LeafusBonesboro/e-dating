@@ -1,36 +1,24 @@
 @import "tailwindcss";
 
-
 @tailwindcss base;
 @tailwindcss components;
 @tailwindcss utilities;
 
-/* Base reset */
+
+/* Reset basics */
 html,
-body,
-#root {
+body {
   min-height: 100%;
   width: 100%;
   font-family: 'Source Sans 3', sans-serif;
-  background-color: transparent; /* ✅ Start fully transparent */
-  margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  background-color: #f9fafb; /* light gray from Tailwind (bg-gray-50) */
 }
 
-.app {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  min-height: 100vh; /* app fills screen */
-  /* ❌ no background here – let pages/topbar control it */
-}
-
-/* General resets */
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
-}
-
+/* Optional: global element styling */
 button {
   margin: 5px;
   padding: 5px;
@@ -44,6 +32,8 @@ input {
   font-size: 18px;
   margin-left: 5px;
 }
+
+/* (Keep if you want to re-use Ken Burns later) */
 @keyframes kenburns {
   0% {
     transform: scale(1.1);
