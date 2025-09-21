@@ -1,42 +1,26 @@
-"use client";
-import { useEffect, useState } from "react";
+import { PrismaClient } from "@prisma/client";
 import Link from "next/link";
 
-export default function CharactersPage() {
-  const [characters, setCharacters] = useState([]);
+const prisma = new PrismaClient();
 
-  useEffect(() => {
-    fetch("/api/characters")
-      .then((res) => res.json())
-      .then((data) => setCharacters(data));
-  }, []);
+export default async function CharactersPage() {
+  const characters = await prisma.character.findMany();
 
   return (
-    <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div className="p-6 grid grid-cols-6 gap-4">
       {characters.map((char) => (
-        <div
+        <Link
           key={char.id}
-          className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition"
+          href={`/characters/${char.id}`}
+          className="bg-gray-900 p-4 rounded shadow hover:shadow-lg transition"
         >
           <img
-  src={char.avatarUrl}
-  alt={char.name}
-  className="w-full aspect-square object-cover rounded-t-lg"
-/>
-
-
-
-          <div className="p-4">
-            <h2 className="text-lg font-bold">{char.name}</h2>
-            <p className="text-gray-600">{char.bio}</p>
-            <Link
-              href={`/chat/${char.id}`}
-              className="mt-3 inline-block bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600 transition"
-            >
-              Start Chat
-            </Link>
-          </div>
-        </div>
+            src={char.avatarUrl}
+            alt={char.name}
+            className="w-full h-40 object-cover rounded"
+          />
+          <h2 className="mt-2 font-semibold">{char.name}</h2>
+        </Link>
       ))}
     </div>
   );

@@ -15,11 +15,17 @@ model User {
 }
 
 model Character {
-  id        String    @id @default(cuid())
-  name      String    @unique
+  id        String   @id @default(cuid())
+  name      String   @unique
+  age       Int?
+  nationality String?
+  hairColor String?
+  eyeColor  String?
+  hobbies   String?   // could also be String[] if you want multiple, but JSON makes it simple
   bio       String?
   avatarUrl String?
   loraToken String?
+
   messages  Message[]
 }
 

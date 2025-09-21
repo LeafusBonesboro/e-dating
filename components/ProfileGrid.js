@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function ProfileGrid({ title, profiles }) {
   const [page, setPage] = useState(0);
@@ -21,21 +22,22 @@ export default function ProfileGrid({ title, profiles }) {
 
       {/* Grid of Profiles */}
       <div className="grid grid-cols-6 gap-4 px-2">
-        {visibleProfiles.map((profile, index) => (
-          <div
-            key={index}
-            className="bg-white rounded-md shadow hover:shadow-lg transition"
+        {visibleProfiles.map((profile) => (
+          <Link
+            key={profile.id}
+            href={`/characters/${profile.id}`}
+            className="bg-white rounded-md shadow hover:shadow-lg transition cursor-pointer"
           >
             <img
-              src={profile.image}
+              src={profile.avatarUrl}
               alt={profile.name}
               className="w-full h-[137px] object-cover rounded-t-md"
             />
             <div className="p-2">
               <h3 className="font-semibold text-sm">{profile.name}</h3>
-              <p className="text-xs text-gray-500">{profile.tagline}</p>
+              <p className="text-xs text-gray-500">{profile.bio}</p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 

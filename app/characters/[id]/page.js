@@ -1,34 +1,43 @@
-"use client";
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import Link from "next/link";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
-export default function CharacterProfile() {
-  const { id } = useParams();
-  const [character, setCharacter] = useState(null);
+export async function generateStaticParams() {
+  // Fetch all characters to generate their routes
+  const characters = await prisma.character.findMany({
+    select: { id: true }, // only grab the ID
+  });
 
-  useEffect(() => {
-    fetch(`/api/characters/${id}`)
-      .then((res) => res.json())
-      .then((data) => setCharacter(data));
-  }, [id]);
+  return characters.map((char) => ({
+    id: char.id,
+  }));
+}
 
-  if (!character) return <p className="p-6">Loading...</p>;
+export default async function CharacterPage({ params }) {
+  const { id } = await params;
+
+  const character = await prisma.character.findUnique({
+    where: { id },
+  });
+
+  if (!character) {
+    return <div>Character not found</div>;
+  }
 
   return (
-    <div className="p-8 max-w-xl mx-auto">
+    <div className="p-6 text-white">
+      <h1 className="text-2xl font-bold mb-4">{character.name}</h1>
       <img
         src={character.avatarUrl}
         alt={character.name}
-        className="w-40 h-40 object-cover rounded-full mx-auto"
+        className="w-64 h-64 object-cover rounded-lg mb-4"
       />
-      <h1 className="text-3xl font-bold text-center mt-4">{character.name}</h1>
-      <p className="text-gray-700 text-center mt-2">{character.bio}</p>
-      <Link href={`/chat/${character.id}`}>
-  <button className="mt-6 w-full py-2 px-4 bg-pink-500 text-white font-bold rounded-lg hover:bg-pink-600">
-    Start Chat
-  </button>
-</Link>
+      <p><strong>Age:</strong> {character.age}</p>
+      <p><strong>Nationality:</strong> {character.nationality}</p>
+      <p><strong>Hair:</strong> {character.hairColor}</p>
+      <p><strong>Eyes:</strong> {character.eyeColor}</p>
+      <p><strong>Hobbies:</strong> {character.hobbies}</p>
+      <p className="mt-4">{character.bio}</p>
     </div>
   );
 }
+

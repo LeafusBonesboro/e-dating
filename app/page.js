@@ -1,19 +1,18 @@
 // app/page.js
+import { PrismaClient } from "@prisma/client";
 import ProfileGrid from "@/components/ProfileGrid";
 
-// temporary mock data (later replace with DB results)
-const mockProfiles = Array.from({ length: 20 }).map((_, i) => ({
-  name: `Profile ${i + 1}`,
-  tagline: "Sample tagline here",
-  image: `https://via.placeholder.com/300x200?text=Profile+${i + 1}`,
-}));
+const prisma = new PrismaClient();
 
-export default function Home() {
+export default async function Home() {
+  // Fetch directly from DB on the server
+  const profiles = await prisma.character.findMany();
+
   return (
     <div className="p-6 space-y-12">
-      <ProfileGrid title="My Favorites" profiles={mockProfiles} />
-      <ProfileGrid title="Recommended" profiles={mockProfiles} />
-      <ProfileGrid title="New Members" profiles={mockProfiles} />
+      <ProfileGrid title="My Favorites" profiles={profiles} />
+      <ProfileGrid title="Recommended" profiles={profiles} />
+      <ProfileGrid title="New Members" profiles={profiles} />
     </div>
   );
 }
