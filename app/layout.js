@@ -9,28 +9,28 @@ export default function RootLayout({ children }) {
   const [expanded, setExpanded] = useState(true);
   const [mounted, setMounted] = useState(false);
 
-  // Ensure client & server match before applying dynamic classes
   useEffect(() => {
     setMounted(true);
   }, []);
 
   return (
     <html lang="en">
-      <body className="bg-gray-50 text-gray-900">
-        <SessionProvider>
-          <div className="flex">
-            <Sidebar expanded={expanded} />
-            <div
-              className={`flex-1 transition-all duration-300 ${
-                mounted ? (expanded ? "ml-48" : "ml-16") : "ml-48"
-              }`}
-            >
-              <Topbar toggleSidebar={() => setExpanded(!expanded)} />
-              <main className="pt-20 px-6">{children}</main>
-            </div>
-          </div>
-        </SessionProvider>
-      </body>
+      <body className="bg-black text-gray-100">
+  <SessionProvider>
+    <div className="flex">
+      <Sidebar expanded={expanded} />
+      <div
+        className={`flex-1 transition-all duration-300 ${
+          mounted ? (expanded ? "ml-48" : "ml-16") : "ml-48"
+        }`}
+      >
+        <Topbar toggleSidebar={() => setExpanded(!expanded)} />
+        <main className="pt-20 px-6">{children}</main>
+      </div>
+    </div>
+  </SessionProvider>
+</body>
+
     </html>
   );
 }

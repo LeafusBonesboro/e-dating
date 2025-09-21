@@ -11,13 +11,14 @@ export default function Topbar({ toggleSidebar }) {
   const { data: session } = useSession();
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50 bg-black text-white shadow-md">
-      <div className="flex items-center justify-between px-6 py-4">
+    <div className="fixed top-0 left-0 w-full z-50 bg-red-900 text-white shadow-md">
+      <div className="flex items-center justify-between px-6 h-[54px]">
+
         {/* Hamburger + Logo */}
         <div className="flex items-center gap-4">
           <button
             onClick={toggleSidebar}
-            className="p-2 rounded-lg hover:bg-gray-800 transition"
+            className="p-2 rounded-lg hover:bg-red-800 transition"
           >
             <Menu size={22} />
           </button>
@@ -36,10 +37,10 @@ export default function Topbar({ toggleSidebar }) {
               <Link
                 key={item}
                 href={`/${item.toLowerCase() === "home" ? "" : item.toLowerCase()}`}
-                className={`transition hover:text-pink-500 ${
+                className={`transition hover:text-pink-300 ${
                   pathname ===
                   `/${item.toLowerCase() === "home" ? "" : item.toLowerCase()}`
-                    ? "text-pink-500"
+                    ? "text-pink-300"
                     : ""
                 }`}
               >
@@ -54,7 +55,7 @@ export default function Topbar({ toggleSidebar }) {
               <span className="text-sm">Hi, {session.user?.name}</span>
               <button
                 onClick={() => signOut()}
-                className="bg-pink-500 hover:bg-pink-600 px-3 py-1 rounded-lg text-sm"
+                className="bg-black hover:bg-gray-800 px-3 py-1 rounded-lg text-sm"
               >
                 Sign Out
               </button>
@@ -62,7 +63,7 @@ export default function Topbar({ toggleSidebar }) {
           ) : (
             <button
               onClick={() => signIn("google")}
-              className="bg-pink-500 hover:bg-pink-600 px-3 py-1 rounded-lg text-sm"
+              className="bg-black hover:bg-gray-800 px-3 py-1 rounded-lg text-sm"
             >
               Sign In
             </button>
