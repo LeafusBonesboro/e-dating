@@ -47,23 +47,34 @@ User: ${userMessage}
 ${character.name}:
     `;
 
-    // 4. Call Ollama
-    const response = await fetch("http://localhost:11434/api/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "gemma3:1b", // swap if you want llama3
-        prompt,
-        stream: false,
-      }),
-    });
+    
+    // 4. Call OpenAI
+const response = await fetch("https://api.openai.com/v1/chat/completions", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+  },
+  body: JSON.stringify({
+    model: "gpt-4o-mini", // you can also use "gpt-4o" or "gpt-3.5-turbo"
+    messages: [
+      { role: "system", content: systemPrompt },
+      ...history.map((m) => ({
+        role: m.sender === "user" ? "user" : "assistant",
+        content: m.content,
+      })),
+      { role: "user", content: userMessage },
+    ],
+  }),
+});
 
-    if (!response.ok) {
-      throw new Error(`Ollama error: ${response.statusText}`);
-    }
+if (!response.ok) {
+  throw new Error(`OpenAI error: ${response.statusText}`);
+}
 
-    const data = await response.json();
-    const reply = data.response?.trim() || "…";
+const data = await response.json();
+const reply = data.choices?.[0]?.message?.content?.trim() || "…";
+
 
     // 5. Save messages
     await prisma.message.create({
