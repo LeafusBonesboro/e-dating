@@ -47,3 +47,5 @@ next-env.d.ts
 *.key
 *.crt
 *.env.test
+# Generated images
+/public/generated

@@ -1,22 +1,17 @@
+// app/characters/[id]/page.js
 import { PrismaClient } from "@prisma/client";
-import ChatWindow from "@/components/ChatWIndow";
+import ChatWindow from "@/components/ChatWindow";
 
 const prisma = new PrismaClient();
 
-export async function generateStaticParams() {
-  const characters = await prisma.character.findMany({ select: { id: true } });
-  return characters.map((char) => ({ id: char.id }));
-}
-
 export default async function CharacterPage({ params }) {
-  const { id } = await params;
+  const { id } = params;
   const character = await prisma.character.findUnique({ where: { id } });
 
   if (!character) return <div>Character not found</div>;
 
   return (
     <div className="relative bg-gradient-to-b from-gray-900 to-black min-h-screen text-white">
-      {/* Hero Section */}
       <div className="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
         
         {/* Left: Profile Info */}

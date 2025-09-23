@@ -7,24 +7,39 @@ export default function ChatPage() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
 
-  const sendMessage = async () => {
-    if (!input.trim()) return;
+const sendMessage = async () => {
+  if (!input.trim()) return;
 
-    const userMessage = input;
-    setMessages([...messages, { sender: "user", content: userMessage }]);
-    setInput("");
+  const userMessage = input.trim();
+  setMessages((prev) => [...prev, { sender: "You", text: userMessage }]);
+  setInput("");
 
+  try {
+    // Normal chat → call /api/chat
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ characterId: id, userMessage }),
+      body: JSON.stringify({
+        characterId,       // ✅ stays the same
+        userMessage,       // ✅ now matches your API route
+      }),
     });
 
     const data = await res.json();
-    if (data.reply) {
-      setMessages((prev) => [...prev, { sender: "character", content: data.reply }]);
-    }
-  };
+
+    setMessages((prev) => [
+      ...prev,
+      { sender: characterName, text: data.reply || "..." },
+    ]);
+  } catch (err) {
+    console.error("Message error:", err);
+    setMessages((prev) => [
+      ...prev,
+      { sender: characterName, text: "⚠️ Something went wrong." },
+    ]);
+  }
+};
+
 
   return (
     <div className="p-6 max-w-2xl mx-auto">
