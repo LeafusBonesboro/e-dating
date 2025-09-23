@@ -1,6 +1,7 @@
 // app/characters/[id]/page.js
 import { PrismaClient } from "@prisma/client";
-import ChatWindow from "@/components/ChatWindow.js";
+import ChatWindow from "../../../components/ChatWindow";
+
 
 
 const prisma = new PrismaClient();
