@@ -1,5 +1,5 @@
 "use client";
-import { Home, Star, Users, FileText, Shield, Newspaper, CreditCard } from "lucide-react";
+import { Home, Star, Users, FileText, Shield, Newspaper, CreditCard, Search } from "lucide-react";
 import Link from "next/link";
 
 export default function Sidebar({ expanded }) {
@@ -22,6 +22,10 @@ export default function Sidebar({ expanded }) {
         <Link href="/characters" className="flex items-center gap-2 hover:text-white">
           <Users size={20} />
           {expanded && <span>Characters</span>}
+        </Link>
+        <Link href="/search" className="flex items-center gap-2 hover:text-white">
+          <Search size={20} />
+          {expanded && <span>Search</span>}
         </Link>
       </nav>
 
