@@ -21,25 +21,28 @@ export default function ProfileGrid({ title, profiles }) {
       </div>
 
       {/* Grid of Profiles */}
-      <div className="grid grid-cols-6 gap-4 px-2">
-        {visibleProfiles.map((profile) => (
-          <Link
-            key={profile.id}
-            href={`/characters/${profile.id}`}
-            className="bg-white rounded-md shadow hover:shadow-lg transition cursor-pointer"
-          >
-            <img
-              src={profile.avatarUrl}
-              alt={profile.name}
-              className="w-full h-[137px] object-cover rounded-t-md"
-            />
-            <div className="p-2">
-              <h3 className="font-semibold text-sm">{profile.name}</h3>
-              <p className="text-xs text-gray-500">{profile.bio}</p>
-            </div>
-          </Link>
-        ))}
+<div className="flex flex-wrap gap-4 px-2 justify-center">
+  {visibleProfiles.map((profile) => (
+    <Link
+      key={profile.id}
+      href={`/characters/${profile.id}`}
+      className="bg-white rounded-lg shadow-md hover:shadow-lg transition 
+                 min-w-[150px] max-w-[180px] flex-1"
+    >
+      <img
+        src={profile.avatarUrl}
+        alt={profile.name}
+        className="w-full h-48 object-cover rounded-t-lg"
+      />
+      <div className="p-2">
+        <h3 className="font-semibold text-sm truncate">{profile.name}</h3>
+        <p className="text-xs text-gray-500 line-clamp-2">{profile.bio}</p>
       </div>
+    </Link>
+  ))}
+</div>
+
+
 
       {/* Left Arrow */}
       {hasPrev && (
