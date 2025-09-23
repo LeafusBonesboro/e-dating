@@ -5,8 +5,11 @@ import ChatWindow from "@/components/ChatWindow";
 const prisma = new PrismaClient();
 
 export default async function CharacterPage({ params }) {
-  const { id } = params;
-  const character = await prisma.character.findUnique({ where: { id } });
+  const { id } = await params;  // 👈 fix here
+
+  const character = await prisma.character.findUnique({
+    where: { id },
+  });
 
   if (!character) return <div>Character not found</div>;
 
