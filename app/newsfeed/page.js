@@ -47,12 +47,9 @@ export default async function NewsfeedPage() {
 
             {/* Actions */}
             <div className="flex items-center justify-between text-sm text-gray-600">
-              <span>👍 {char._count.likes} people liked this</span>
+              
               <div className="flex gap-2">
-                <LikeButton
-                  characterId={char.id}
-                  initialLiked={false} // later we’ll fetch per-user like status
-                />
+               
                 <Link
                   href={`/characters/${char.id}`}
                   className="px-3 py-1 bg-pink-500 text-white rounded hover:bg-pink-600"
