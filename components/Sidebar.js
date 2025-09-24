@@ -15,13 +15,14 @@ export default function Sidebar({ expanded }) {
           <Newspaper size={20} />
           {expanded && <span>Newsfeed</span>}
         </Link>
-        <Link href="/favorites" className="flex items-center gap-2 hover:text-white">
-          <Star size={20} />
-          {expanded && <span>Favorites</span>}
+        <Link href="/following" className="flex items-center gap-2 hover:text-white">
+        <Users size={20} />
+        {expanded && <span>Following</span>}
         </Link>
+
         <Link href="/characters" className="flex items-center gap-2 hover:text-white">
           <Users size={20} />
-          {expanded && <span>Characters</span>}
+          {expanded && <span>People</span>}
         </Link>
         <Link href="/search" className="flex items-center gap-2 hover:text-white">
           <Search size={20} />

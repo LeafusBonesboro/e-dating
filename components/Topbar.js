@@ -32,42 +32,28 @@ export default function Topbar({ toggleSidebar }) {
 
         {/* Navigation + Auth */}
         <div className="flex items-center gap-6">
-          <nav className="flex gap-6">
-            {["Home", "Features", "Characters"].map((item) => (
-              <Link
-                key={item}
-                href={`/${item.toLowerCase() === "home" ? "" : item.toLowerCase()}`}
-                className={`transition hover:text-pink-300 ${
-                  pathname ===
-                  `/${item.toLowerCase() === "home" ? "" : item.toLowerCase()}`
-                    ? "text-pink-300"
-                    : ""
-                }`}
-              >
-                {item}
-              </Link>
-            ))}
-          </nav>
+         
 
-          {/* Auth Buttons */}
-          {session ? (
-            <div className="flex items-center gap-3">
-              <span className="text-sm">Hi, {session.user?.name}</span>
-              <button
-                onClick={() => signOut()}
-                className="bg-black hover:bg-gray-800 px-3 py-1 rounded-lg text-sm"
-              >
-                Sign Out
-              </button>
-            </div>
-          ) : (
-            <button
-              onClick={() => signIn("google")}
-              className="bg-black hover:bg-gray-800 px-3 py-1 rounded-lg text-sm"
-            >
-              Sign In
-            </button>
-          )}
+         {/* Auth Buttons */}
+{session ? (
+  <div className="flex items-center gap-3">
+    <span className="text-sm">Hi, {session.user?.name}</span>
+    <button
+      onClick={() => signOut({ callbackUrl: "/landing" })} // 👈 redirect after logout
+      className="bg-black hover:bg-gray-800 px-3 py-1 rounded-lg text-sm"
+    >
+      Sign Out
+    </button>
+  </div>
+) : (
+  <button
+    onClick={() => signIn("google")}
+    className="bg-black hover:bg-gray-800 px-3 py-1 rounded-lg text-sm"
+  >
+    Sign In
+  </button>
+)}
+
         </div>
       </div>
     </div>

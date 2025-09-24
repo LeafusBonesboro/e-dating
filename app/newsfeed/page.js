@@ -1,40 +1,69 @@
 import { PrismaClient } from "@prisma/client";
+import Link from "next/link";
+import FollowButton from "@/components/FollowButton";
+import LikeButton from "@/components/LikeButton"; // ⬅️ import it
 
 const prisma = new PrismaClient();
 
 export default async function NewsfeedPage() {
-  // Example: Fetch characters to show in feed
   const characters = await prisma.character.findMany({
-    orderBy: { id: "desc" }, // you can swap to createdAt if you add that column later
+    orderBy: { id: "desc" },
+    include: {
+      _count: {
+        select: { likes: true }, // ⬅️ fetch how many likes each character has
+      },
+    },
   });
 
   return (
-    <div className="p-6 max-w-4xl mx-auto text-white">
-      <h1 className="text-3xl font-bold mb-6">Newsfeed</h1>
+    <div className="flex bg-gray-100 min-h-screen">
+      {/* Sidebar */}
 
-      <div className="space-y-6">
+      <main className="flex-1 max-w-2xl mx-auto p-6 space-y-6">
         {characters.map((char) => (
-          <div
-            key={char.id}
-            className="bg-gray-900 rounded-xl shadow-md p-4 flex gap-4 items-start"
-          >
+          <div key={char.id} className="bg-white rounded-lg shadow p-4">
+            {/* Post header */}
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-3">
+                <img
+                  src={char.avatarUrl}
+                  alt={char.name}
+                  className="w-10 h-10 rounded-full"
+                />
+                <span className="font-semibold">{char.name}</span>
+              </div>
+              <FollowButton characterId={char.id} />
+            </div>
+
+            {/* Post text */}
+            <p className="mb-3 text-gray-700">{char.bio}</p>
+
+            {/* Post image */}
             <img
               src={char.avatarUrl}
               alt={char.name}
-              className="w-24 h-24 rounded-lg object-cover"
+              className="w-full rounded-lg object-cover mb-3"
             />
-            <div>
-              <h2 className="text-xl font-semibold">{char.name}</h2>
-              <p className="text-sm text-gray-400">{char.bio}</p>
-              <div className="mt-2 text-sm text-gray-300">
-                <p><strong>Age:</strong> {char.age}</p>
-                <p><strong>Nationality:</strong> {char.nationality}</p>
-                <p><strong>Hobbies:</strong> {char.hobbies}</p>
+
+            {/* Actions */}
+            <div className="flex items-center justify-between text-sm text-gray-600">
+              <span>👍 {char._count.likes} people liked this</span>
+              <div className="flex gap-2">
+                <LikeButton
+                  characterId={char.id}
+                  initialLiked={false} // later we’ll fetch per-user like status
+                />
+                <Link
+                  href={`/characters/${char.id}`}
+                  className="px-3 py-1 bg-pink-500 text-white rounded hover:bg-pink-600"
+                >
+                  View Profile
+                </Link>
               </div>
             </div>
           </div>
         ))}
-      </div>
+      </main>
     </div>
   );
 }
